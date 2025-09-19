@@ -8,12 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // -------------------- Enable CORS --------------------
-app.use(
-  cors({
-    origin: "*", // allow all origins (for dev); replace with your frontend URL in production
-    methods: ["GET", "POST", "OPTIONS"],
-  })
-);
+app.use(cors());
 
 app.use(express.json());
 
