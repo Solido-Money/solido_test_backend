@@ -1,10 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors"; // <-- import cors
 import metricsRoutes from "./routes/metrics";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// -------------------- Enable CORS --------------------
+app.use(
+  cors({
+    origin: "*", // allow all origins (for dev); replace with your frontend URL in production
+    methods: ["GET", "POST", "OPTIONS"],
+  })
+);
 
 app.use(express.json());
 
