@@ -1,34 +1,36 @@
 import express from "express";
-import cors from "cors";
 import metricsRoutes from "./routes/metrics";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
-// 🔍 Debug logs
+// -------------------- CORS & Preflight --------------------
 app.use((req, res, next) => {
-  console.log(`➡️ ${req.method} ${req.url} | Origin: ${req.headers.origin}`);
-  next();
-});
+  const origin = req.headers.origin || "*";
+  res.setHeader("Access-Control-Allow-Origin", origin);
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
 
-// ✅ Handle preflight explicitly (Render-safe)
-app.use((req, res, next) => {
   if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     return res.sendStatus(200);
   }
   next();
 });
 
-// ✅ Apply normal CORS middleware for all other requests
-app.use(cors({
-  origin: "*", // or ["http://localhost:5173", "https://yourfrontend.com"]
-}));
-
 app.use(express.json());
+
+// -------------------- Routes --------------------
 app.use("/protocol/metrics", metricsRoutes);
 
-app.listen(process.env.PORT || 3000, () =>
-  console.log("🚀 Server running with CORS")
-);
+// -------------------- Start Server --------------------
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+export default app;
