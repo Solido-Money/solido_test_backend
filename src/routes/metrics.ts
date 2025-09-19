@@ -109,8 +109,8 @@ const fetchConfig = async (coinType: string) => {
 router.get("/", async (req, res) => {
   try {
     const coins = [
-      { name: "stSupraCoin", type: stsupra_coin },
-      { name: "SupraCoin", type: supra_coin },
+      { name: "stSUPRA", type: stsupra_coin },
+      { name: "SUPRA", type: supra_coin },
     ];
 
     const data = await Promise.all(
