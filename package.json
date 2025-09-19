@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "render-build": "yarn build",
+    "render-start": "yarn start"
   },
   "dependencies": {
     "axios": "^1.12.2",
